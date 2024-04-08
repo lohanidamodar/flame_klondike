@@ -1,5 +1,5 @@
-name: mero_nepali
-description: "A new Flutter project."
+name: flame_klondike
+description: "A klondike (Solitaire) game made with Flutter and Flame engine"
 publish_to: 'none'
 version: 0.1.0
 
