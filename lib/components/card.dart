@@ -55,12 +55,13 @@ class Card extends PositionComponent with DragCallbacks {
         .whereType<Pile>()
         .toList();
     if (dropPiles.isNotEmpty) {
-      // if (card is allowed to be dropped into this pile) {
-      //   remove the card from the current pile
-      //   add the card into the new pile
-      // }
+      if (dropPiles.first.canAcceptCard(this)) {
+        pile!.removeCard(this);
+        dropPiles.first.acquireCard(this);
+        return;
+      }
     }
-    // return the card to where it was originally
+    pile!.returnCard(this);
   }
 
   @override

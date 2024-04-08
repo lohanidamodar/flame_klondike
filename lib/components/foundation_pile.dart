@@ -58,5 +58,11 @@ class FoundationPile extends PositionComponent implements Pile {
   }
 
   @override
+  void returnCard(Card card) {
+    card.position = position;
+    card.priority = _cards.indexOf(card);
+  }
+
+  @override
   bool get debugMode => false;
 }

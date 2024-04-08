@@ -9,6 +9,7 @@ class WastePile extends PositionComponent implements Pile {
   final List<Card> _cards = [];
   final Vector2 _fanOffset = Vector2(KlondikeGame.cardWidth * 0.2, 0);
 
+  @override
   void acquireCard(Card card) {
     assert(card.isFaceUp);
     card.position = position;
@@ -48,6 +49,12 @@ class WastePile extends PositionComponent implements Pile {
   void removeCard(Card card) {
     assert(canMoveCard(card));
     _cards.removeLast();
+    _fanOutTopCards();
+  }
+
+  @override
+  void returnCard(Card card) {
+    card.priority = _cards.indexOf(card);
     _fanOutTopCards();
   }
 }

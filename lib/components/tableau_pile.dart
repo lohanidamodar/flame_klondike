@@ -60,5 +60,13 @@ class TableauPile extends PositionComponent implements Pile {
   }
 
   @override
+  void returnCard(Card card) {
+    final index = _cards.indexOf(card);
+    card.position =
+        index == 0 ? position : _cards[index - 1].position + _fanOffset;
+    card.priority = index;
+  }
+
+  @override
   bool canMoveCard(Card card) => _cards.isNotEmpty && card == _cards.last;
 }
