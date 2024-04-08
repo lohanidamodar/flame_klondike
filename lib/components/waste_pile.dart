@@ -4,7 +4,9 @@ import 'package:mero_nepali/klondike_game.dart';
 import 'card.dart';
 import 'pile.dart';
 
-class WastePile extends PositionComponent implements Pile {
+class WastePile extends PositionComponent
+    with HasGameReference<KlondikeGame>
+    implements Pile {
   WastePile({super.position}) : super(size: KlondikeGame.cardSize);
   final List<Card> _cards = [];
   final Vector2 _fanOffset = Vector2(KlondikeGame.cardWidth * 0.2, 0);
@@ -20,6 +22,9 @@ class WastePile extends PositionComponent implements Pile {
   }
 
   void _fanOutTopCards() {
+    if (game.klondikeDraw == 1) {
+      return;
+    }
     final n = _cards.length;
     for (var i = 0; i < n; i++) {
       _cards[i].position = position;

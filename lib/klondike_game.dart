@@ -20,6 +20,8 @@ class KlondikeGame extends FlameGame {
     const Radius.circular(cardRadius),
   );
 
+  int klondikeDraw = 1;
+
   @override
   Future<void> onLoad() async {
     await Flame.images.load('klondike-sprites.png');

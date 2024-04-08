@@ -7,7 +7,7 @@ import 'card.dart';
 import 'pile.dart';
 import 'waste_pile.dart';
 
-class StockPile extends PositionComponent with TapCallbacks implements Pile {
+class StockPile extends PositionComponent with TapCallbacks, HasGameReference<KlondikeGame> implements Pile {
   StockPile({super.position}) : super(size: KlondikeGame.cardSize);
   final _borderPaint = Paint()
     ..style = PaintingStyle.stroke
@@ -20,6 +20,7 @@ class StockPile extends PositionComponent with TapCallbacks implements Pile {
 
   final List<Card> _cards = [];
 
+  @override
   void acquireCard(Card card) {
     assert(!card.isFaceUp);
     card.position = position;
@@ -37,7 +38,7 @@ class StockPile extends PositionComponent with TapCallbacks implements Pile {
         acquireCard(card);
       });
     } else {
-      for (var i = 0; i < 3; i++) {
+      for (var i = 0; i < game.klondikeDraw; i++) {
         if (_cards.isNotEmpty) {
           final card = _cards.removeLast();
           card.flip();
