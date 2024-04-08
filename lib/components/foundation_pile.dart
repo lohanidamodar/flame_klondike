@@ -4,9 +4,10 @@ import 'package:flutter/painting.dart';
 
 import '../klondike_game.dart';
 import 'card.dart';
+import 'pile.dart';
 import 'suit.dart';
 
-class FoundationPile extends PositionComponent {
+class FoundationPile extends PositionComponent implements Pile {
   FoundationPile(int intSuit, {super.position})
       : suit = Suit.fromInt(intSuit),
         super(size: KlondikeGame.cardSize);
@@ -25,6 +26,7 @@ class FoundationPile extends PositionComponent {
     assert(card.isFaceUp);
     card.position = position;
     card.priority = _cards.length;
+    card.pile = this;
     _cards.add(card);
   }
 
@@ -38,6 +40,21 @@ class FoundationPile extends PositionComponent {
       size: Vector2.all(KlondikeGame.cardWidth * 0.6),
       overridePaint: _suitPaint,
     );
+  }
+
+  @override
+  bool canMoveCard(Card card) => _cards.isNotEmpty && card == _cards.last;
+
+  @override
+  bool canAcceptCard(Card card) {
+    final topCardRank = _cards.isEmpty ? 0 : _cards.last.rank.value;
+    return card.suit == suit && card.rank.value == topCardRank + 1;
+  }
+
+  @override
+  void removeCard(Card card) {
+    assert(canMoveCard(card));
+    _cards.removeLast();
   }
 
   @override

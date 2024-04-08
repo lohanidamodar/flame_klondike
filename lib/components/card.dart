@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import '../klondike_game.dart';
+import 'pile.dart';
 import 'rank.dart';
 import 'suit.dart';
 
@@ -18,6 +19,8 @@ class Card extends PositionComponent with DragCallbacks {
   final Suit suit;
   bool _faceUp;
 
+  Pile? pile;
+
   bool get isFaceUp => _faceUp;
   bool get isFaceDown => !_faceUp;
   void flip() => _faceUp = !_faceUp;
@@ -27,13 +30,37 @@ class Card extends PositionComponent with DragCallbacks {
 
   @override
   void onDragStart(DragStartEvent event) {
-    super.onDragStart(event);
-    priority = 100;
+    if (pile?.canMoveCard(this) ?? false) {
+      super.onDragStart(event);
+      priority = 100;
+    }
   }
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
+    if (!isDragged) {
+      return;
+    }
     position += event.delta;
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    if (!isDragged) {
+      return;
+    }
+    super.onDragEnd(event);
+    final dropPiles = parent!
+        .componentsAtPoint(position + size / 2)
+        .whereType<Pile>()
+        .toList();
+    if (dropPiles.isNotEmpty) {
+      // if (card is allowed to be dropped into this pile) {
+      //   remove the card from the current pile
+      //   add the card into the new pile
+      // }
+    }
+    // return the card to where it was originally
   }
 
   @override

@@ -63,7 +63,7 @@ class KlondikeGame extends FlameGame {
     ];
     cards.shuffle();
     world.addAll(cards);
-    
+
     int cardToDeal = cards.length - 1;
     for (var i = 0; i < 7; i++) {
       for (var j = i; j < 7; j++) {
@@ -71,7 +71,7 @@ class KlondikeGame extends FlameGame {
       }
       piles[i].flipTopCard();
     }
-    for(int n = 0; n <= cardToDeal; n++) {
+    for (int n = 0; n <= cardToDeal; n++) {
       stock.acquireCard(cards[n]);
     }
   }

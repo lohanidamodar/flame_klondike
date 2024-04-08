@@ -1,13 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame/extensions.dart';
 import 'package:flutter/painting.dart';
 import 'package:mero_nepali/klondike_game.dart';
 
 import 'card.dart';
+import 'pile.dart';
 import 'waste_pile.dart';
 
-class StockPile extends PositionComponent with TapCallbacks {
+class StockPile extends PositionComponent with TapCallbacks implements Pile {
   StockPile({super.position}) : super(size: KlondikeGame.cardSize);
   final _borderPaint = Paint()
     ..style = PaintingStyle.stroke
@@ -24,6 +24,7 @@ class StockPile extends PositionComponent with TapCallbacks {
     assert(!card.isFaceUp);
     card.position = position;
     card.priority = _cards.length;
+    card.pile = this;
     _cards.add(card);
   }
 
@@ -58,4 +59,12 @@ class StockPile extends PositionComponent with TapCallbacks {
 
   @override
   bool get debugMode => false;
+  @override
+  bool canAcceptCard(Card card) => false;
+  @override
+  bool canMoveCard(Card card) => false;
+
+  @override
+  void removeCard(Card card) =>
+      throw StateError('cannot remove cards from here');
 }
